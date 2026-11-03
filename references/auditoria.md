@@ -29,6 +29,8 @@ incompleta.
 | **Plano** | `<projeto>_archive/plan/*.md` | plano do `/eng-plan` (fases + DoD + checklist derivado) |
 | **ADR** | `<projeto>_archive/decisoes/ADR-NNNN-<slug>.md` | decisões marcadas `proposed` que nunca viraram `accepted`/`rejected` |
 | **Scan** | `<projeto>_archive/scan/*.md` | achados do `/eng-scan` (viraram itens fechados?) |
+| **Git (piso 22)** | `git status --porcelain`, `git rev-list @{u}..HEAD`, `git remote -v` | árvore suja, commit não empurrado ou sem remote = órfão `local_divergente` (local ≠ publicado) |
+| **Ritmo (piso 26)** | `<projeto>_archive/relatorios/AAAA-MM-DD_HHMM.md`, `<projeto>_archive/.ritmo.json`, `<projeto>_archive/custos/` | `check-ritmo.sh` da engineering falhando (relatório > 30 min, handoff > 6 h) = órfão `ritmo_vencido` |
 | **Qualquer MD** | archive + histórico git | linhas `- [ ]` / `- [~]`, seções "TODO / EM ABERTO / PENDENTE / FIXME" |
 
 > Regra de enumeração: `grep -rn -- '- \[ \]\|- \[~\]\|EM ABERTO\|TODO\|PENDENTE\|FIXME'` no
@@ -81,13 +83,15 @@ inegociáveis. Item trivial marcado feito recebe amostragem; item crítico receb
 
 ## 4. Órfão RED — a definição operacional
 
-**Órfão RED** é qualquer promessa sem desfecho comprovado. Reúne cinco espécies:
+**Órfão RED** é qualquer promessa sem desfecho comprovado. Reúne sete espécies (cinco de checklist e duas dos pisos 22/26):
 
 1. **Aberto nunca fechado** — `- [ ]` que não reaparece resolvido em run/plano posterior.
 2. **On-hold sem resposta** — `- [~]` cuja pergunta parkeada segue sem resposta e o item nunca fechou.
 3. **Pergunta parkeada pendente** — linha em `PERGUNTAS-OVERDEV.txt` que ninguém respondeu.
 4. **ADR proposed órfão** — decisão `proposed` que nunca virou `accepted`/`rejected`.
 5. **"Feito" sem prova** — `- [x]` cuja evidência não existe ou cujo gate não passa hoje → **volta a aberto**.
+6. **Local divergente (piso 22)** — `local_divergente`: árvore suja, commit não empurrado ou sem remote.
+7. **Ritmo vencido (piso 26)** — `ritmo_vencido`: `check-ritmo.sh` reprova (relatório > 30 min, handoff > 6 h).
 
 Órfão RED é o **único** desfecho que trava o gate (§6). O resto (feito-provado, on-hold com
 resposta e item já fechado depois) é histórico são.
@@ -97,7 +101,7 @@ resposta e item já fechado depois) é histórico são.
 Grava em `<projeto>_archive/audit/<data>.md` (anatomia completa em `relatorio.md`):
 
 - **Cobertura:** `A` artefatos auditados / `A` existentes (tem que bater); total de itens por estado.
-- **Órfãos RED** (o que importa): lista das cinco espécies (§4), cada um com **origem**
+- **Órfãos RED** (o que importa): lista das sete espécies (§4), cada um com **origem**
   (artefato + data + linha) e **o que falta** pra sanar.
 - **Checklist de saneamento:** os órfãos viram um **novo checklist** (candidato a
   `/eng-overdev`) pra fechar de vez — reabrir + resolver + verificar + reteste.

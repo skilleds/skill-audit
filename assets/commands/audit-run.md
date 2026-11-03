@@ -36,8 +36,8 @@ existe o teste/commit/arquivo? o gate passa **hoje**? Item marcado-feito que nã
 **volta a aberto** no relatório.
 
 ## 4. Órfãos RED (§4) e saída
-Reúna as cinco espécies: `open_never_closed`, `on_hold_unanswered`, `parked_question_pending`,
-`adr_proposed_orphan`, `done_unproven` — cada um com **origem** (`arquivo:linha` + data) e **o
+Reúna as sete espécies: `open_never_closed`, `on_hold_unanswered`, `parked_question_pending`,
+`adr_proposed_orphan`, `done_unproven`, `ritmo_vencido` (piso 26), `local_divergente` (piso 22) — cada um com **origem** (`arquivo:linha` + data) e **o
 que falta**. Gere o **checklist de saneamento** (os órfãos viram um **novo checklist**, candidato
 a `/eng-overdev` — reabrir + resolver + verificar + reteste). Emita o **JSON** machine-readable
 (`metodologia.md` §4). Consolide o relatório com `/audit-report`.
@@ -48,7 +48,7 @@ Emita o JSON em `<projeto>_archive/audit/<data>.json` no schema
 `assets/schemas/audit-run.schema.json` e **rode o gate**:
 
 ```bash
-node .claude/skills/schematize-audit/scripts/audit-gate.mjs <projeto>_archive/audit/<data>.json
+node .claude/skills/schematize-audit/scripts/audit-gate.mjs <projeto>_archive/audit/<data>.json --archive <projeto>_archive --repo .
 ```
 
 `0` histórico são · `1` **reprova** · `2` documento inválido (conserte o JSON, nunca o schema).

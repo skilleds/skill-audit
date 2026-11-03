@@ -4,6 +4,14 @@ Todas as mudanças relevantes deste pacote, no formato [Keep a Changelog](https:
 com versionamento [SemVer](https://semver.org/lang/pt-BR/).
 
 
+## [Não lançado]
+### Corrigido
+- `audit-gate.mjs` deixa de acreditar no JSON: com `--archive` RECONTA itens (`[ ]`/`[H ]`/`[~]`/`[x]`), artefatos e ADR `proposed` no disco; sem `--archive` nem `--declarada` reprova ("cobertura autodeclarada").
+- `sanado` exige `resolution.evidence` verificável (`sha:<commit>` existente no repo ou `arquivo:<caminho>[:linha]` existente); prosa não vale. 10 casos vermelhos novos (eram verdes antes).
+### Adicionado
+- Fontes dos pisos 22 e 26 (estado do git, `relatorios/`, `.ritmo.json`, `custos/`) e dois órfãos: `local_divergente`, `ritmo_vencido`.
+- Bloco "Herda os pisos 22–29".
+
 ## [0.5.0] — 2026-10-14
 Integração com as 8 skills novas (skill-dev, iam, api, payments, postgres, incident, analytics, git) e saneamento pelo gate novo.
 

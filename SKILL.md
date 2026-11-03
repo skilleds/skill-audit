@@ -137,3 +137,5 @@ Independente do reference, estes limites nunca são cruzados:
 - **schematize-web / go / rust / elixir / c# / zig / ruby / node** — a auditoria é
   agnóstica: ela audita os checklists **de qualquer stack**; a prova de cada item roda no gate
   daquela linguagem (`/<slug>-review`, testes, lint).
+
+Herda os pisos 22–29 da `schematize-engineering` (git como trava de conclusão, deploy só do git, ops é o gate da IA, sem agents inúteis, relatório 30 min/handoff 6 h, CI remoto só antes do hml, microserviço autônomo, build em dev/hml + higiene).

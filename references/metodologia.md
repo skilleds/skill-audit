@@ -96,7 +96,7 @@ Este exemplo é o estado **depois do saneamento** (ambos os órfãos têm `resol
 `exit 0`. Tire o `resolution` de um deles e `blocking_orphans` passa a 1, `healthy` a `false` e o
 gate dá `exit 1`. O `schema` é **obrigatório** (sem ele, `exit 2`).
 
-- `kind ∈ { open_never_closed, on_hold_unanswered, parked_question_pending, adr_proposed_orphan, done_unproven }` — as cinco espécies de órfão RED (§4 do `auditoria.md`).
+- `kind ∈ { open_never_closed, on_hold_unanswered, parked_question_pending, adr_proposed_orphan, done_unproven, ritmo_vencido, local_divergente }` — as sete espécies de órfão RED (§4 do `auditoria.md`).
 - `verdict.healthy = (blocking_orphans == 0)`. É o campo que o gate lê — e ele **não acredita no
   campo**: recalcula a partir da lista. Relatório que se declara saudável com órfão vivo é **pior que
   nenhum relatório**, porque autoriza o release; o gate chama isso pelo nome (*o veredito mente*) e
@@ -116,7 +116,8 @@ O veredito é binário: **histórico são só com zero órfãos RED**.
   não-zero; num run macro, bloqueia o "pronto". Concretamente:
 
   ```bash
-  node .claude/skills/schematize-audit/scripts/audit-gate.mjs <projeto>_archive/audit/<data>.json
+  node .claude/skills/schematize-audit/scripts/audit-gate.mjs <projeto>_archive/audit/<data>.json --archive <projeto>_archive
+  # o gate RECONTA o archive (itens, ADR proposed) e verifica a evidência do `sanado` (sha:/arquivo:); cobertura autodeclarada reprova
   # 0 = histórico são · 1 = REPROVA · 2 = documento inválido
   ```
 - **Sem waiver silencioso:** um órfão só sai da lista quando **sanado** (fechado com prova) ou
