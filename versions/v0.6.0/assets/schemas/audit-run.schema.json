@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schematize.org/schemas/audit-run-1.json",
+  "title": "schematize-audit — saida machine-readable da auditoria",
+  "description": "O control-plane da auditoria: e este documento que o CI le para dar o veredito, sem parsear prosa. O relatorio humano (relatorio.md) e derivado dele.",
+  "type": "object",
+  "required": ["schema", "audit_date", "scope", "coverage", "totals", "orphans_red", "verdict"],
+  "additionalProperties": false,
+  "properties": {
+    "schema": { "const": "schematize-audit/run@1" },
+    "audit_date": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" },
+    "scope": { "type": "string", "minLength": 1 },
+    "coverage": {
+      "type": "object",
+      "required": ["artifacts_found", "artifacts_audited", "complete"],
+      "description": "Cobertura e MEDIDA, nao sentida: complete tem de ser consistente com os dois numeros.",
+      "properties": {
+        "artifacts_found": { "type": "integer", "minimum": 0 },
+        "artifacts_audited": { "type": "integer", "minimum": 0 },
+        "complete": { "type": "boolean" },
+        "not_audited": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "totals": {
+      "type": "object",
+      "required": ["done", "open", "on_hold", "done_unproven"],
+      "properties": {
+        "done": { "type": "integer", "minimum": 0 },
+        "open": { "type": "integer", "minimum": 0 },
+        "on_hold": { "type": "integer", "minimum": 0 },
+        "done_unproven": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "orphans_red": {
+      "type": "array",
+      "description": "As cinco especies de orfao RED. Lista vazia so vale com coverage.complete = true.",
+      "items": {
+        "type": "object",
+        "required": ["kind", "source", "item", "missing"],
+        "properties": {
+          "kind": { "enum": ["open_never_closed", "on_hold_unanswered", "parked_question_pending", "adr_proposed_orphan", "done_unproven", "ritmo_vencido", "local_divergente"] },
+          "source": { "type": "string", "minLength": 1, "description": "arquivo:linha — orfao sem origem rastreavel nao e achado, e impressao" },
+          "item": { "type": "string", "minLength": 1 },
+          "missing": { "type": "string", "minLength": 1, "description": "o que FALTA para fechar; e o que torna o orfao acionavel" },
+          "since": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" },
+          "resolution": {
+            "type": "object",
+            "description": "Desfecho EXPLICITO e DATADO. Sem waiver silencioso: so isto tira um orfao da lista sem sanar.",
+            "required": ["outcome", "date", "why"],
+            "properties": {
+              "outcome": { "enum": ["sanado", "reclassificado", "rejeitado"] },
+              "date": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" },
+              "why": { "type": "string", "minLength": 1 },
+              "evidence": { "type": "string", "description": "Obrigatoria em `sanado`: `sha:<commit>` (existe no repo) ou `arquivo:<caminho>[:linha]` (existe). O gate VERIFICA; prosa nao vale." }
+            }
+          }
+        }
+      }
+    },
+    "verdict": {
+      "type": "object",
+      "required": ["healthy", "blocking_orphans"],
+      "properties": {
+        "healthy": { "type": "boolean" },
+        "blocking_orphans": { "type": "integer", "minimum": 0 }
+      }
+    }
+  }
+}

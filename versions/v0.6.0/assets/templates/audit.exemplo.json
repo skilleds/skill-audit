@@ -1,0 +1,25 @@
+{
+  "schema": "schematize-audit/run@1",
+  "audit_date": "2026-08-21",
+  "scope": "<projeto>_archive/** + worktree + git-history",
+  "coverage": { "artifacts_found": 12, "artifacts_audited": 12, "complete": true, "not_audited": [] },
+  "totals": { "done": 84, "open": 5, "on_hold": 3, "done_unproven": 1 },
+  "orphans_red": [
+    {
+      "kind": "done_unproven",
+      "source": "<projeto>_archive/plan/2026-05-10.md:22",
+      "item": "rate-limit no endpoint /login",
+      "missing": "marcado [x] mas nao ha teste nem middleware no codigo atual -> reaberto",
+      "since": "2026-05-10"
+    },
+    {
+      "kind": "adr_proposed_orphan",
+      "source": "<projeto>_archive/decisoes/ADR-0012-fila.md:3",
+      "item": "ADR-0012 (fila de e-mail) segue em proposed ha 3 meses",
+      "missing": "desfecho: accepted ou rejected, com motivo",
+      "since": "2026-05-18",
+      "resolution": { "outcome": "reclassificado", "date": "2026-08-21", "why": "rejeitado: a fila foi substituida pelo outbox transacional do ADR-0015; registrado como rejected na mesma data." }
+    }
+  ],
+  "verdict": { "healthy": false, "blocking_orphans": 1 }
+}

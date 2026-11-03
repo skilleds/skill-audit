@@ -1,0 +1,12 @@
+slug = "audit"
+name = "schematize-audit"
+tag = "Ferramenta · Auditoria"
+status = "beta"
+order = 12
+current_version = "0.6.0"
+href = "/audit"
+
+[descriptions]
+pt = "Auditoria de histórico da casa: enumera e CONTA todos os checklists criados (overdev, Q.A., handoffs, planos, ADRs, perguntas parkeadas, premature-stops) e prova que cada item foi SANADO — acha órfãos RED, reabre 'feito' sem prova, gera checklist de saneamento e trava o veredito se sobrar órfão."
+en = "House history audit: enumerates and COUNTS every checklist created (overdev, QA, handoffs, plans, ADRs, parked questions, premature-stops) and proves each item was actually RESOLVED — finds RED orphans, reopens 'done' without proof, generates a remediation checklist and blocks the verdict if any orphan remains."
+es = "Auditoría de histórico de la casa: enumera y CUENTA todos los checklists creados (overdev, QA, handoffs, planes, ADRs, preguntas aparcadas, premature-stops) y prueba que cada ítem fue SANEADO — encuentra huérfanos RED, reabre 'hecho' sin prueba, genera checklist de saneamiento y bloquea el veredicto si queda algún huérfano."
